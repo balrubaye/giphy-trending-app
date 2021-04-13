@@ -8,30 +8,23 @@ import {
   GridListTile,
   GridListTileBar,
 } from "@material-ui/core";
+import useSearchStickers from "./useSearchStickers";
+import useSearchGifs from "./useSearchGifs";
 import ImageList from "../ImageList";
-const URL_SEARCH = `${process.env.REACT_APP_GIPHY_URL}stickers/search?api_key=${process.env.REACT_APP_GIPHY_API_KEY}`;
+import ImageTab from "../ImageTab";
+import SearchImageTabs from "./SearchImageTabs";
 
 export default function Search() {
-  const [data, setData] = useState([]);
-  const [term, setTerm] = useState("");
-  const [search, setSearch] = useState("");
-  useEffect(() => {
-    const fetchData = () => {
-      fetch(`${URL_SEARCH}&q=${term}`)
-        .then((res) => res.json())
-        .then((res) => {
-          setData(res.data || []);
-          console.log(res);
-        });
-    };
+  const [gifs, gifTerm, setGifTerm] = useSearchGifs("");
+  const [stickers, stickerTerm, setStickerTerm] = useSearchStickers();
 
-    fetchData();
-  }, [term]);
+  const [search, setSearch] = useState("");
 
   const handleSubmit = (e) => {
     //e.preventDefault();
     console.log(search);
-    setTerm(search);
+    setGifTerm(search);
+    setStickerTerm(search);
     e.preventDefault();
   };
   return (
@@ -54,10 +47,11 @@ export default function Search() {
         </Grid>
       </form>
       <hr />
-      {term && (
+      {gifTerm && (
         <>
-          <Typography variant="h4">{`Search results for "${term}"`}</Typography>
-          <ImageList images={data} />
+          <Typography variant="h4">{`Search results for "${gifTerm}"`}</Typography>
+
+          <SearchImageTabs gifs={gifs} stickers={stickers} />
         </>
       )}
     </div>
