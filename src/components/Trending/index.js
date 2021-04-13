@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   Card,
   CardMedia,
-  CardHeader,
+  Typography,
   GridList,
   GridListTile,
   GridListTileBar,
@@ -42,7 +42,8 @@ export default function Trending() {
   };
   return (
     <div>
-      <h2>Trending Gifs</h2>
+      <Typography variant="h4">Trending Gifs</Typography>
+
       <ImageList images={data} />
     </div>
   );
